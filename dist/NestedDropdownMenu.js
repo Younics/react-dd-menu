@@ -43,7 +43,6 @@ var NestedDropdownMenu = function (_PureComponent) {
     var _this = _possibleConstructorReturn(this, (NestedDropdownMenu.__proto__ || Object.getPrototypeOf(NestedDropdownMenu)).call(this, props));
 
     _this.handleToggleComponentClick = function (e) {
-      e.stopPropagation();
       _this.setState({ isClickOpen: !_this.state.isClickOpen });
     };
 
