@@ -1,8 +1,8 @@
-import React, { PureComponent } from 'react';
-import PropTypes from 'prop-types';
-import ReactDOM from 'react-dom';
-import CSSTransitionGroup from 'react-transition-group/CSSTransitionGroup';
-import classnames from 'classnames';
+import React, { PureComponent } from "react";
+import PropTypes from "prop-types";
+import ReactDOM from "react-dom";
+import CSSTransitionGroup from "react-transition-group/CSSTransitionGroup";
+import classnames from "classnames";
 
 export default class NestedDropdownMenu extends PureComponent {
   constructor(props) {
@@ -19,9 +19,9 @@ export default class NestedDropdownMenu extends PureComponent {
   static propTypes = {
     toggle: PropTypes.node.isRequired,
     children: PropTypes.node,
-    nested: PropTypes.oneOf(['inherit', 'reverse', 'left', 'right']),
+    nested: PropTypes.oneOf(["inherit", "reverse", "left", "right"]),
     animate: PropTypes.bool,
-    direction: PropTypes.oneOf(['left', 'right']),
+    direction: PropTypes.oneOf(["left", "right"]),
     upwards: PropTypes.bool,
     delay: PropTypes.number,
     enterTimeout: PropTypes.number,
@@ -30,9 +30,9 @@ export default class NestedDropdownMenu extends PureComponent {
   };
 
   static defaultProps = {
-    nested: 'reverse',
+    nested: "reverse",
     animate: false,
-    direction: 'right',
+    direction: "right",
     upwards: false,
     delay: 500,
     enterTimeout: 150,
@@ -41,21 +41,27 @@ export default class NestedDropdownMenu extends PureComponent {
   };
 
   componentDidMount() {
-    this.toggleComponent = ReactDOM.findDOMNode(this).querySelector('*');
-    this.toggleComponent.addEventListener('click', this.handleToggleComponentClick);
+    this.toggleComponent = ReactDOM.findDOMNode(this).querySelector("*");
+    this.toggleComponent.addEventListener(
+      "click",
+      this.handleToggleComponentClick
+    );
   }
 
   componentWillUnmount() {
     this.closeCallback && clearTimeout(this.closeCallback);
-    this.toggleComponent.removeEventListener('click', this.handleToggleComponentClick);
+    this.toggleComponent.removeEventListener(
+      "click",
+      this.handleToggleComponentClick
+    );
   }
 
-  handleToggleComponentClick = (e) => {
+  handleToggleComponentClick = e => {
     this.setState({ isClickOpen: !this.state.isClickOpen });
   };
 
   handleMouseOver = () => {
-    if(this.closeCallback) {
+    if (this.closeCallback) {
       clearTimeout(this.closeCallback);
       this.closeCallback = null;
     }
@@ -69,32 +75,48 @@ export default class NestedDropdownMenu extends PureComponent {
   };
 
   render() {
-    const { toggle, children, nested, animate, direction, upwards, enterTimeout, leaveTimeout } = this.props;
+    const {
+      toggle,
+      children,
+      nested,
+      animate,
+      direction,
+      upwards,
+      enterTimeout,
+      leaveTimeout,
+    } = this.props;
     const isOpen = this.state.isHoverOpen || this.state.isClickOpen;
 
     let itemProps = {
-      className: classnames('nested-dd-menu', `nested-${nested}`),
+      className: classnames("nested-dd-menu", `nested-${nested}`),
     };
-    if(this.props.openOnMouseover) {
+    if (this.props.openOnMouseover) {
       itemProps.onMouseOver = this.handleMouseOver;
       itemProps.onMouseLeave = this.handleMouseLeave;
     }
 
-    const prefix = upwards ? 'up-' : '';
+    const prefix = upwards ? "up-" : "";
     const transitionProps = {
-      className: 'dd-item-ignore',
+      className: "dd-item-ignore",
       transitionEnter: animate,
       transitionLeave: animate,
       transitionName: `grow-from-${prefix}${direction}`,
       transitionEnterTimeout: enterTimeout,
       transitionLeaveTimeout: leaveTimeout,
     };
+    const menuProps = {
+      className: this.state.isClickOpen ? "is-click-open" : "",
+    };
 
     return (
       <li {...itemProps}>
         {toggle}
         <CSSTransitionGroup {...transitionProps}>
-          {isOpen ? <ul key="items">{children}</ul> : null}
+          {isOpen ? (
+            <ul {...menuProps} key="items">
+              {children}
+            </ul>
+          ) : null}
         </CSSTransitionGroup>
       </li>
     );

@@ -1,28 +1,30 @@
-'use strict';
+"use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _react = require('react');
+var _react = require("react");
 
 var _react2 = _interopRequireDefault(_react);
 
-var _propTypes = require('prop-types');
+var _propTypes = require("prop-types");
 
 var _propTypes2 = _interopRequireDefault(_propTypes);
 
-var _reactDom = require('react-dom');
+var _reactDom = require("react-dom");
 
 var _reactDom2 = _interopRequireDefault(_reactDom);
 
-var _CSSTransitionGroup = require('react-transition-group/CSSTransitionGroup');
+var _CSSTransitionGroup = require("react-transition-group/CSSTransitionGroup");
 
 var _CSSTransitionGroup2 = _interopRequireDefault(_CSSTransitionGroup);
 
-var _classnames = require('classnames');
+var _classnames = require("classnames");
 
 var _classnames2 = _interopRequireDefault(_classnames);
 
@@ -70,19 +72,19 @@ var NestedDropdownMenu = function (_PureComponent) {
   }
 
   _createClass(NestedDropdownMenu, [{
-    key: 'componentDidMount',
+    key: "componentDidMount",
     value: function componentDidMount() {
-      this.toggleComponent = _reactDom2.default.findDOMNode(this).querySelector('*');
-      this.toggleComponent.addEventListener('click', this.handleToggleComponentClick);
+      this.toggleComponent = _reactDom2.default.findDOMNode(this).querySelector("*");
+      this.toggleComponent.addEventListener("click", this.handleToggleComponentClick);
     }
   }, {
-    key: 'componentWillUnmount',
+    key: "componentWillUnmount",
     value: function componentWillUnmount() {
       this.closeCallback && clearTimeout(this.closeCallback);
-      this.toggleComponent.removeEventListener('click', this.handleToggleComponentClick);
+      this.toggleComponent.removeEventListener("click", this.handleToggleComponentClick);
     }
   }, {
-    key: 'render',
+    key: "render",
     value: function render() {
       var _props = this.props,
           toggle = _props.toggle,
@@ -97,33 +99,36 @@ var NestedDropdownMenu = function (_PureComponent) {
       var isOpen = this.state.isHoverOpen || this.state.isClickOpen;
 
       var itemProps = {
-        className: (0, _classnames2.default)('nested-dd-menu', 'nested-' + nested)
+        className: (0, _classnames2.default)("nested-dd-menu", "nested-" + nested)
       };
       if (this.props.openOnMouseover) {
         itemProps.onMouseOver = this.handleMouseOver;
         itemProps.onMouseLeave = this.handleMouseLeave;
       }
 
-      var prefix = upwards ? 'up-' : '';
+      var prefix = upwards ? "up-" : "";
       var transitionProps = {
-        className: 'dd-item-ignore',
+        className: "dd-item-ignore",
         transitionEnter: animate,
         transitionLeave: animate,
-        transitionName: 'grow-from-' + prefix + direction,
+        transitionName: "grow-from-" + prefix + direction,
         transitionEnterTimeout: enterTimeout,
         transitionLeaveTimeout: leaveTimeout
       };
+      var menuProps = {
+        className: this.state.isClickOpen ? "is-click-open" : ""
+      };
 
       return _react2.default.createElement(
-        'li',
+        "li",
         itemProps,
         toggle,
         _react2.default.createElement(
           _CSSTransitionGroup2.default,
           transitionProps,
           isOpen ? _react2.default.createElement(
-            'ul',
-            { key: 'items' },
+            "ul",
+            _extends({}, menuProps, { key: "items" }),
             children
           ) : null
         )
@@ -137,9 +142,9 @@ var NestedDropdownMenu = function (_PureComponent) {
 NestedDropdownMenu.propTypes = {
   toggle: _propTypes2.default.node.isRequired,
   children: _propTypes2.default.node,
-  nested: _propTypes2.default.oneOf(['inherit', 'reverse', 'left', 'right']),
+  nested: _propTypes2.default.oneOf(["inherit", "reverse", "left", "right"]),
   animate: _propTypes2.default.bool,
-  direction: _propTypes2.default.oneOf(['left', 'right']),
+  direction: _propTypes2.default.oneOf(["left", "right"]),
   upwards: _propTypes2.default.bool,
   delay: _propTypes2.default.number,
   enterTimeout: _propTypes2.default.number,
@@ -147,9 +152,9 @@ NestedDropdownMenu.propTypes = {
   openOnMouseover: _propTypes2.default.bool
 };
 NestedDropdownMenu.defaultProps = {
-  nested: 'reverse',
+  nested: "reverse",
   animate: false,
-  direction: 'right',
+  direction: "right",
   upwards: false,
   delay: 500,
   enterTimeout: 150,
