@@ -51,7 +51,6 @@ export default class NestedDropdownMenu extends PureComponent {
   }
 
   handleToggleComponentClick = (e) => {
-    e.stopPropagation();
     this.setState({ isClickOpen: !this.state.isClickOpen });
   };
 
