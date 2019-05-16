@@ -42,10 +42,6 @@ var NestedDropdownMenu = function (_PureComponent) {
 
     var _this = _possibleConstructorReturn(this, (NestedDropdownMenu.__proto__ || Object.getPrototypeOf(NestedDropdownMenu)).call(this, props));
 
-    _this.handleToggleComponentClick = function () {
-      _this.setState({ isClickOpen: !_this.state.isClickOpen });
-    };
-
     _this.handleMouseOver = function () {
       if (_this.closeCallback) {
         clearTimeout(_this.closeCallback);
@@ -63,8 +59,7 @@ var NestedDropdownMenu = function (_PureComponent) {
     _this.toggleComponent = null;
     _this.closeCallback = null;
     _this.state = {
-      isHoverOpen: false,
-      isClickOpen: false
+      isHoverOpen: false
     };
     return _this;
   }
@@ -73,13 +68,11 @@ var NestedDropdownMenu = function (_PureComponent) {
     key: "componentDidMount",
     value: function componentDidMount() {
       this.toggleComponent = _reactDom2.default.findDOMNode(this).querySelector("*");
-      this.toggleComponent.addEventListener("click", this.handleToggleComponentClick);
     }
   }, {
     key: "componentWillUnmount",
     value: function componentWillUnmount() {
       this.closeCallback && clearTimeout(this.closeCallback);
-      this.toggleComponent.removeEventListener("click", this.handleToggleComponentClick);
     }
   }, {
     key: "render",
@@ -93,9 +86,9 @@ var NestedDropdownMenu = function (_PureComponent) {
           upwards = _props.upwards,
           enterTimeout = _props.enterTimeout,
           leaveTimeout = _props.leaveTimeout,
-          controlledClick = _props.controlledClick;
+          isClickOpen = _props.isClickOpen;
 
-      var isOpen = this.state.isHoverOpen;
+      var isOpen = this.state.isHoverOpen || isClickOpen;
 
       var itemProps = {
         className: (0, _classnames2.default)("nested-dd-menu", "nested-" + nested)
@@ -146,7 +139,6 @@ NestedDropdownMenu.propTypes = {
   enterTimeout: _propTypes2.default.number,
   leaveTimeout: _propTypes2.default.number,
   openOnMouseover: _propTypes2.default.bool,
-  controlledClick: _propTypes2.default.bool,
   isClickOpen: _propTypes2.default.bool
 };
 NestedDropdownMenu.defaultProps = {

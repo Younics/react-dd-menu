@@ -12,7 +12,6 @@ export default class NestedDropdownMenu extends PureComponent {
     this.closeCallback = null;
     this.state = {
       isHoverOpen: false,
-      isClickOpen: false,
     };
   }
 
@@ -27,7 +26,6 @@ export default class NestedDropdownMenu extends PureComponent {
     enterTimeout: PropTypes.number,
     leaveTimeout: PropTypes.number,
     openOnMouseover: PropTypes.bool,
-    controlledClick: PropTypes.bool,
     isClickOpen: PropTypes.bool,
   };
 
@@ -44,23 +42,11 @@ export default class NestedDropdownMenu extends PureComponent {
 
   componentDidMount() {
     this.toggleComponent = ReactDOM.findDOMNode(this).querySelector("*");
-    this.toggleComponent.addEventListener(
-      "click",
-      this.handleToggleComponentClick
-    );
   }
 
   componentWillUnmount() {
     this.closeCallback && clearTimeout(this.closeCallback);
-    this.toggleComponent.removeEventListener(
-      "click",
-      this.handleToggleComponentClick
-    );
   }
-
-  handleToggleComponentClick = () => {
-    this.setState({ isClickOpen: !this.state.isClickOpen });
-  };
 
   handleMouseOver = () => {
     if (this.closeCallback) {
@@ -86,9 +72,9 @@ export default class NestedDropdownMenu extends PureComponent {
       upwards,
       enterTimeout,
       leaveTimeout,
-      controlledClick,
+      isClickOpen,
     } = this.props;
-    const isOpen = this.state.isHoverOpen;
+    const isOpen = this.state.isHoverOpen || isClickOpen;
 
     let itemProps = {
       className: classnames("nested-dd-menu", `nested-${nested}`),
