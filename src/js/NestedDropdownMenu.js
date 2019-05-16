@@ -27,6 +27,8 @@ export default class NestedDropdownMenu extends PureComponent {
     enterTimeout: PropTypes.number,
     leaveTimeout: PropTypes.number,
     openOnMouseover: PropTypes.bool,
+    controlledClick: PropTypes.bool,
+    isClickOpen: PropTypes.bool,
   };
 
   static defaultProps = {
@@ -56,7 +58,7 @@ export default class NestedDropdownMenu extends PureComponent {
     );
   }
 
-  handleToggleComponentClick = e => {
+  handleToggleComponentClick = () => {
     this.setState({ isClickOpen: !this.state.isClickOpen });
   };
 
@@ -84,8 +86,12 @@ export default class NestedDropdownMenu extends PureComponent {
       upwards,
       enterTimeout,
       leaveTimeout,
+      controlledClick,
     } = this.props;
-    const isOpen = this.state.isHoverOpen || this.state.isClickOpen;
+    const isOpen =
+      this.state.isHoverOpen || controlledClick
+        ? this.props.isClickOpen
+        : this.state.isClickOpen;
 
     let itemProps = {
       className: classnames("nested-dd-menu", `nested-${nested}`),
@@ -104,19 +110,12 @@ export default class NestedDropdownMenu extends PureComponent {
       transitionEnterTimeout: enterTimeout,
       transitionLeaveTimeout: leaveTimeout,
     };
-    const menuProps = {
-      className: this.state.isClickOpen ? "is-click-open" : "",
-    };
 
     return (
       <li {...itemProps}>
         {toggle}
         <CSSTransitionGroup {...transitionProps}>
-          {isOpen ? (
-            <ul {...menuProps} key="items">
-              {children}
-            </ul>
-          ) : null}
+          {isOpen ? <ul key="items">{children}</ul> : null}
         </CSSTransitionGroup>
       </li>
     );
