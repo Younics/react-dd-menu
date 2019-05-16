@@ -4,8 +4,6 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
-
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 var _react = require("react");
@@ -44,7 +42,7 @@ var NestedDropdownMenu = function (_PureComponent) {
 
     var _this = _possibleConstructorReturn(this, (NestedDropdownMenu.__proto__ || Object.getPrototypeOf(NestedDropdownMenu)).call(this, props));
 
-    _this.handleToggleComponentClick = function (e) {
+    _this.handleToggleComponentClick = function () {
       _this.setState({ isClickOpen: !_this.state.isClickOpen });
     };
 
@@ -94,9 +92,10 @@ var NestedDropdownMenu = function (_PureComponent) {
           direction = _props.direction,
           upwards = _props.upwards,
           enterTimeout = _props.enterTimeout,
-          leaveTimeout = _props.leaveTimeout;
+          leaveTimeout = _props.leaveTimeout,
+          controlledClick = _props.controlledClick;
 
-      var isOpen = this.state.isHoverOpen || this.state.isClickOpen;
+      var isOpen = this.state.isHoverOpen || controlledClick ? this.props.isClickOpen : this.state.isClickOpen;
 
       var itemProps = {
         className: (0, _classnames2.default)("nested-dd-menu", "nested-" + nested)
@@ -115,9 +114,6 @@ var NestedDropdownMenu = function (_PureComponent) {
         transitionEnterTimeout: enterTimeout,
         transitionLeaveTimeout: leaveTimeout
       };
-      var menuProps = {
-        className: this.state.isClickOpen ? "is-click-open" : ""
-      };
 
       return _react2.default.createElement(
         "li",
@@ -128,7 +124,7 @@ var NestedDropdownMenu = function (_PureComponent) {
           transitionProps,
           isOpen ? _react2.default.createElement(
             "ul",
-            _extends({}, menuProps, { key: "items" }),
+            { key: "items" },
             children
           ) : null
         )
@@ -149,7 +145,9 @@ NestedDropdownMenu.propTypes = {
   delay: _propTypes2.default.number,
   enterTimeout: _propTypes2.default.number,
   leaveTimeout: _propTypes2.default.number,
-  openOnMouseover: _propTypes2.default.bool
+  openOnMouseover: _propTypes2.default.bool,
+  controlledClick: _propTypes2.default.bool,
+  isClickOpen: _propTypes2.default.bool
 };
 NestedDropdownMenu.defaultProps = {
   nested: "reverse",
