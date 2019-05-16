@@ -95,7 +95,7 @@ var NestedDropdownMenu = function (_PureComponent) {
           leaveTimeout = _props.leaveTimeout,
           controlledClick = _props.controlledClick;
 
-      var isOpen = this.state.isHoverOpen || controlledClick ? this.props.isClickOpen : this.state.isClickOpen;
+      var isOpen = this.state.isHoverOpen;
 
       var itemProps = {
         className: (0, _classnames2.default)("nested-dd-menu", "nested-" + nested)
