@@ -88,10 +88,7 @@ export default class NestedDropdownMenu extends PureComponent {
       leaveTimeout,
       controlledClick,
     } = this.props;
-    const isOpen =
-      this.state.isHoverOpen || controlledClick
-        ? this.props.isClickOpen
-        : this.state.isClickOpen;
+    const isOpen = this.state.isHoverOpen;
 
     let itemProps = {
       className: classnames("nested-dd-menu", `nested-${nested}`),
